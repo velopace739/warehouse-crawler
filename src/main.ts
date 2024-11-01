@@ -3,13 +3,13 @@ import { PlaywrightCrawler, ProxyConfiguration } from 'crawlee';
 
 import { router } from './routes.js';
 
-const startUrls = ['https://crawlee.dev'];
+const startUrls = ['https://warehouse-theme-metal.myshopify.com/collections'];
 
 const crawler = new PlaywrightCrawler({
-    // proxyConfiguration: new ProxyConfiguration({ proxyUrls: ['...'] }),
-    requestHandler: router,
-    // Comment this option to scrape the full website.
-    maxRequestsPerCrawl: 20,
+  // proxyConfiguration: new ProxyConfiguration({ proxyUrls: ['...'] }),
+  requestHandler: router,
+  // Comment this option to scrape the full website.
+  maxRequestsPerCrawl: 50,
 });
 
 await crawler.run(startUrls);
