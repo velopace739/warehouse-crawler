@@ -2,8 +2,8 @@ import { createPlaywrightRouter } from 'crawlee';
 
 export const router = createPlaywrightRouter();
 
-router.addDefaultHandler(async ({ page, enqueueLinks, log }) => {
-  log.info(`enqueueing new URLs`);
+router.addDefaultHandler(async ({ page, enqueueLinks, request, log }) => {
+  log.debug(`Enqueueing categories from page: ${request.url}`);
 
   await page.waitForSelector('.collection-block-item');
   await enqueueLinks({
@@ -12,7 +12,8 @@ router.addDefaultHandler(async ({ page, enqueueLinks, log }) => {
   });
 });
 
-router.addHandler('CATEGORY', async ({ page, enqueueLinks }) => {
+router.addHandler('CATEGORY', async ({ page, enqueueLinks, request, log }) => {
+  log.debug(`Enqueueing pagination for: ${request.url}`)
   await page.waitForSelector('.product-item > a');
   await enqueueLinks({
     selector: '.product-item > a',
@@ -28,9 +29,8 @@ router.addHandler('CATEGORY', async ({ page, enqueueLinks }) => {
   }
 });
 
-router.addHandler('DETAIL', async ({ request, page, log }) => {
-  log.info(`Processing: ${request.url}`);
-
+router.addHandler('DETAIL', async ({ request, page, log, pushData }) => {
+  log.debug(`Extracting data: ${request.url}`);
   const urlPart = request.url.split('/').slice(-1); // ['sennheiser-mke-440-professional-stereo-shotgun-microphone-mke-440]
   const manufacturer = urlPart[0].split('-')[0]; // 'sennheiser'
 
@@ -66,5 +66,6 @@ router.addHandler('DETAIL', async ({ request, page, log }) => {
     availableInStock: inStock,
   };
 
-  console.log(results);
+  log.debug(`Saving data: ${request.url}`)
+  await pushData(results);
 })
