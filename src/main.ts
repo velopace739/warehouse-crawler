@@ -5,8 +5,6 @@ import { Actor } from 'apify';
 
 Actor.init();
 
-log.setLevel(log.LEVELS.DEBUG);
-
 const startUrls = ['https://warehouse-theme-metal.myshopify.com/collections'];
 
 log.debug('Setting up crawler');
