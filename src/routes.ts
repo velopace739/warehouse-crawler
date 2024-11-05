@@ -29,7 +29,7 @@ router.addHandler('CATEGORY', async ({ page, enqueueLinks, request, log }) => {
   }
 });
 
-router.addHandler('DETAIL', async ({ request, page, log, pushData, saveSnapshot }) => {
+router.addHandler('DETAIL', async ({ request, page, log, pushData }) => {
   log.debug(`Extracting data: ${request.url}`);
   const urlPart = request.url.split('/').slice(-1); // ['sennheiser-mke-440-professional-stereo-shotgun-microphone-mke-440]
   const manufacturer = urlPart[0].split('-')[0]; // 'sennheiser'
@@ -73,7 +73,7 @@ router.addHandler('DETAIL', async ({ request, page, log, pushData, saveSnapshot 
 
   // Convert the URL into a valid key
   const key = request.url.replace(/[:/]/g, '_');
-  
+
   // Crawler utils screenshot
   // await saveSnapshot({ key, saveHtml: false });
 
